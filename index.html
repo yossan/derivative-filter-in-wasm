@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>画像微分フィルタ in Wasm</title>
+<link rel="stylesheet" href="index.css">
+</head>
+<body>
+<input type="file" accept="image/png">
+<div>
+	<div class="loader" hidden></div>
+</div>
+</div>
+
+<script type="module">
+import * as wasm from './pkg/image_loader.js'
+wasm.default().then(() => {
+	main(wasm)
+})
+
+function main(wasm) {
+	const loader = document.querySelector('.loader')
+	let output;
+	const reader = new FileReader();
+	reader.onload = (event) => {
+		let data = wasm.load_data(new Uint8Array(reader.result))
+		let image = new Image()
+		image.src = `data:image/png;base64, ${data}`
+		output = document.createElement('div');
+		output.appendChild(image);
+		loader.parentNode.replaceChild(output, loader);
+	}
+
+	let input = document.querySelector("input[type=file]")
+	input.addEventListener('change', (e) => {
+		if (output) {
+			output.parentNode.replaceChild(loader, output);
+		}
+		loader.hidden = false;
+		const file = input.files[0];
+		if (file) {
+			reader.readAsArrayBuffer(file);
+		}
+	})
+}
+</script>
+</body>
+</html>

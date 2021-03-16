@@ -1,0 +1,15 @@
+{
+  "name": "image-loader",
+  "collaborators": [
+    "Kosuke YOSHIMOTO <kosuke.yoshimoto@gmail.com>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "image_loader_bg.wasm",
+    "image_loader.js",
+    "image_loader.d.ts"
+  ],
+  "module": "image_loader.js",
+  "types": "image_loader.d.ts",
+  "sideEffects": false
+}
